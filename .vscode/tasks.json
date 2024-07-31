@@ -1,0 +1,55 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "CMake: Configure for Emscripten",
+            "type": "shell",
+            "command": "cmd",
+            "args": [
+                // Run the Emscripten environment setup script, emsdk path because it is not visible inside task terminal
+                // We just should have Emscripten compiler in our path.
+                "/c",
+                "${config:emsdk_path}/emsdk_env.bat &&",
+                
+                // Run the qt-cmake command with appropriate arguments
+                "${config:qt_path}/wasm_multithread/bin/qt-cmake",
+                    "-G", "Ninja",
+                    "-S", "${workspaceFolder}",
+                    "-B", "${workspaceFolder}/build/",
+                    "-DCMAKE_BUILD_TYPE=Debug"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "CMake: Build Emscripten",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "${workspaceFolder}/build/"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Run Emscripten Build in Browser",
+            "type": "shell",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "${config:emsdk_path}/emsdk_env.bat &&",
+                "emrun",
+                "--browser", "chrome",
+                "${workspaceFolder}/build/openglwindow.html"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+        }
+    ]
+}
