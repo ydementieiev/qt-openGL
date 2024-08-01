@@ -23,7 +23,7 @@ class OpenGLWindow : public QWindow, protected QOpenGLFunctions
 
     void setAnimating(bool animating);
 
-  public slots:
+  public Q_SLOTS:
     void renderLater();
     void renderNow();
 
