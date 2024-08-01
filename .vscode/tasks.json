@@ -12,7 +12,10 @@
                 "${config:emsdk_path}/emsdk_env.bat &&",
                 
                 // Run the qt-cmake command with appropriate arguments
-                "${config:qt_path}/wasm_multithread/bin/qt-cmake",
+                "cmake",
+                    // "-DQT_HOST_PATH=${config:qt_path}",
+                    // "-DQT_HOST_PATH_CMAKE_DIR=${config:qt_path}/Debug/lib/cmake",
+                    "-DCMAKE_TOOLCHAIN_FILE=${config:qt_path}/Debug/lib/cmake/Qt6/qt.toolchain.cmake",
                     "-G", "Ninja",
                     "-S", "${workspaceFolder}",
                     "-B", "${workspaceFolder}/build/",
